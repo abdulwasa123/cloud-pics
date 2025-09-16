@@ -19,10 +19,12 @@ const appPage   = "/";
   if (!user && currentPath !== loginPage) {
     // 🚪 Not logged in → force to login
     window.location.href = loginPage;
-  }
-
-  if (user && currentPath === loginPage) {
-    // 🔒 Already logged in → skip login, go to app
+  
+  } else if (user && currentPath === loginPage) {
     window.location.href = appPage;
+    
+  } else {
+    // ✅ Allow rendering
+    document.body.classList.remove("hidden");
   }
 })();
