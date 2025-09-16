@@ -352,7 +352,7 @@
           try {
             // Call Supabase reset password
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-              redirectTo: "http://127.0.0.1:5500/reset-password/",
+              redirectTo: "https://cloud-pics.vercel.app/reset-password/",
             })            
         
             if (error) {
