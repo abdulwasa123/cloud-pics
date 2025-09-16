@@ -1,0 +1,27 @@
+// Import Supabase client (adjust to your setup)
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+const SUPABASE_URL = "https://ltuoxjnbknwutuclsjqy.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0dW94am5ia253dXR1Y2xzanF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMTQ2NjEsImV4cCI6MjA3MDY5MDY2MX0.hWrDsgTddY2wyFUijYYI8rGvSwtsVt5ZwD4y1I8sZiE";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Page routes
+const loginPage = "/login/";
+const appPage   = "//";
+
+// Check session on page load
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const currentPath = window.location.pathname;
+
+  if (!user && currentPath !== loginPage) {
+    // 🚪 Not logged in → force to login
+    window.location.href = loginPage;
+  }
+
+  if (user && currentPath === loginPage) {
+    // 🔒 Already logged in → skip login, go to app
+    window.location.href = appPage;
+  }
+})();
