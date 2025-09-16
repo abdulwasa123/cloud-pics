@@ -1,4 +1,4 @@
-        import { supabase } from "./supabase.js";
+        // import { supabase } from "./supabase.js";
         // Global variables
         let isDarkMode = false
         let currentForm = "login"
