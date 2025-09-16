@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudPics - Your Image Cloud Storage</title>
+    <link rel="stylesheet" href="/css/styles.css">
+     <!-- Font Awesome for icons  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+     <!-- Main Navigation Bar  -->
+    <nav class="navbar">
+        <div class="nav-container">
+             <!-- Left side: Brand logo and name  -->
+            <div class="nav-brand">
+                <i class="fas fa-cloud"></i>
+                <span>CloudPics</span>
+                 <!-- Mobile menu toggle button (hidden on desktop)  -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+             <!-- Center: Search bar and navigation menu  -->
+            <div class="nav-menu" id="navMenu">
+                 <!-- Search functionality  -->
+                <div class="nav-search">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search your images..." class="search-input">
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Right side: Action buttons and profile  -->
+            <div class="nav-actions">
+                 <!-- Dark mode toggle button  -->
+                <button class="nav-btn" id="darkModeToggle" title="Toggle Dark Mode" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon" id="darkModeIcon"></i>
+                </button>
+                
+                 <!-- Help modal trigger button  -->
+                <button class="nav-btn" title="Help & Info" onclick="toggleHelpModal()">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                
+                 <!-- Profile dropdown menu  -->
+                <div class="profile-dropdown">
+                    <button class="profile-btn" onclick="toggleProfileDropdown()">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                     <!-- Dropdown menu content  -->
+                    <div class="dropdown-menu" id="profileDropdown">
+                         <!-- User info header  -->
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="dropdown-name">John Doe</div>
+                                <div class="dropdown-email">john@example.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                         <!-- Menu items  -->
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-chart-bar"></i>
+                            Storage Usage
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-shield-alt"></i>
+                            Privacy & Security
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" onclick="confirmDeleteAccount()">
+                            <i class="fas fa-trash-alt"></i>
+                            Delete Account
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+     <!-- Main Content Area  -->
+    <main class="main-content">
+         <!-- File Upload Section  -->
+        <section class="upload-section">
+            <div class="upload-container">
+                 <!-- Drag and drop upload area  -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drag & Drop Images Here</h3>
+                        <p>or click to browse files</p>
+                         <!-- Hidden file input for click-to-upload  -->
+                        <input type="file" id="fileInput" multiple accept="image/*" hidden>
+                    </div>
+                     <!-- Upload animation overlay  -->
+                    <div class="upload-overlay" id="uploadOverlay">
+                        <div class="upload-animation">
+                            <div class="spinner"></div>
+                            <p>Uploading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Upload Preview Section (shown when files are selected)  -->
+        <section class="preview-section" id="previewSection" style="display: none;">
+            <div class="preview-container">
+                <div class="preview-header">
+                    <h3>Ready to Upload</h3>
+                     <!-- Upload confirmation button  -->
+                    <button class="upload-btn" onclick="uploadImages()">
+                        <i class="fas fa-upload"></i>
+                        Upload Images
+                    </button>
+                </div>
+                 <!-- Grid of selected images for preview  -->
+                <div class="preview-grid" id="previewGrid">
+                     <!-- Preview items will be added here dynamically by JavaScript  -->
+                </div>
+            </div>
+        </section>
+
+         <!-- Image Gallery Section  -->
+        <section class="gallery-section">
+             <!-- Gallery header with controls  -->
+            <div class="gallery-header">
+                <div class="gallery-title">
+                    <h2>Your Images</h2>
+                     <!-- Dynamic image count display  -->
+                    <span class="image-count" id="imageCount">0 images</span>
+                </div>
+                 <!-- Gallery view and sort controls  -->
+                <div class="gallery-controls">
+                     <!-- Grid/List view toggle buttons  -->
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="grid" onclick="toggleView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="toggle-btn" data-view="list" onclick="toggleView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                     <!-- Sort dropdown  -->
+                    <div class="sort-dropdown">
+                        <select class="sort-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Name A-Z</option>
+                            <option value="size">File Size</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Gallery container  -->
+            <div class="gallery-container">
+                 <!-- Image grid (populated by JavaScript and sample images)  -->
+                <div class="gallery-grid" id="galleryGrid">
+                     <!-- Sample images for demonstration  -->
+                    <div class="gallery-item">
+                        <div class="image-container">
+                            <img src="vlcsnap-2024-12-12-11h03m39s037.png" alt="Sample Image 1">
+                             <!-- Image overlay with action buttons  -->
+                            <div class="image-overlay">
+                                <button class="overlay-btn" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="overlay-btn" title="Share">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                                <button class="overlay-btn" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                         <!-- Image information  -->
+                        <div class="image-info">
+                            <div class="image-name">game screenshot.jpg</div>
+                            <div class="image-details">2.4 MB • 2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+     <!-- Help Modal (overlay)  -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-content">
+             <!-- Modal header  -->
+            <div class="modal-header">
+                <h3>Help & Information</h3>
+                <button class="modal-close" onclick="toggleHelpModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+             <!-- Modal body with help sections  -->
+            <div class="modal-body">
+                 <!-- Upload instructions  -->
+                <div class="help-section">
+                    <h4><i class="fas fa-upload"></i> Uploading Images</h4>
+                    <p>• Drag and drop images directly onto the upload area</p>
+                    <p>• Click the upload area to browse and select files</p>
+                    <p>• Supported formats: JPG, PNG, GIF, WebP</p>
+                    <p>• Maximum file size: 10MB per image</p>
+                </div>
+                
+                 <!-- Search and organization help  -->
+                <div class="help-section">
+                    <h4><i class="fas fa-search"></i> Search & Organization</h4>
+                    <p>• Use the search bar to find images by filename</p>
+                    <p>• Toggle between grid and list view</p>
+                    <p>• Sort images by date, name, or file size</p>
+                </div>
+                
+                 <!-- Keyboard shortcuts  -->
+                <div class="help-section">
+                    <h4><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h4>
+                    <p>• <kbd>Ctrl + U</kbd> - Focus upload area</p>
+                    <p>• <kbd>Ctrl + F</kbd> - Focus search bar</p>
+                    <p>• <kbd>G</kbd> - Switch to grid view</p>
+                    <p>• <kbd>L</kbd> - Switch to list view</p>
+                    <p>• <kbd>D</kbd> - Toggle dark mode</p>
+                </div>
+                
+                 <!-- Storage information  -->
+                <div class="help-section">
+                    <h4><i class="fas fa-info-circle"></i> Storage Info</h4>
+                    <p>• Current storage used: <span class="storage-used">2.4 GB</span> / 5 GB</p>
+                    <p>• Total images: <span id="totalImagesCount">3</span></p>
+                    <p>• Account type: Free Plan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- JavaScript file  -->
+      <script src="/javascript/script.js"></script>
+
+    </body>
+    </html>

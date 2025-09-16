@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verified</title>
+  <link rel="stylesheet" href="/css/emailVerified.css">
+</head>
+<body>
+  <div class="verify-container">
+    <div class="success-icon">✅</div>
+    <h1>Email Verified</h1>
+    <p>Your email has been confirmed successfully. You can now log in!</p>
+    <p id="countdown">Redirecting to login in 5 seconds...</p>
+    <a href="/">Go to Login Now</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    // Handle Supabase session (optional, keeps session clean)
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        localStorage.setItem("sb-session", JSON.stringify(session));
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+
+    // Countdown + redirect
+    let seconds = 5;
+    const countdownEl = document.getElementById("countdown");
+
+    const updateCountdown = () => {
+    countdownEl.textContent = `Redirecting to login in ${seconds} seconds...`;
+    countdownEl.style.animation = "none"; // reset animation
+    countdownEl.offsetHeight; // trigger reflow
+    countdownEl.style.animation = "fadeText 1s ease-in-out forwards"; // reapply
+    };
+
+    updateCountdown();
+
+    const interval = setInterval(() => {
+    seconds--;
+    updateCountdown();
+    if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = "/";
+    }
+    }, 1000);
+
+  </script>
+</body>
+</html>

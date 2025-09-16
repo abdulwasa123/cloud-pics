@@ -1,0 +1,73 @@
+/* ===== Email Verified Styles ===== */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  
+  .verify-container {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    width: 380px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  .success-icon {
+    font-size: 60px;
+    color: #4caf50;
+    margin-bottom: 1rem;
+  }
+  
+  h1 {
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  p {
+    color: #555;
+    margin: 0.5rem 0 1rem;
+  }
+  
+  /* Countdown animation */
+  #countdown {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #0077cc;
+    opacity: 0;
+    animation: fadeText 1s ease-in-out forwards;
+  }
+  
+  a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.5rem;
+    background: #4facfe;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  
+  a:hover {
+    background: #0077cc;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  @keyframes fadeText {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
